@@ -1,10 +1,11 @@
 import { useState } from "react";
-import { Link } from "react-router-dom";
 
-const Login = () => {
+const Register = () => {
   const [formData, setFormData] = useState({
+    name: "",
     email: "",
-    password: ""
+    password: "",
+    confirmPassword: ""
   });
 
   const handleChange = (e) => {
@@ -14,39 +15,49 @@ const Login = () => {
     });
   };
 
- 
-
 const handleSubmit = async (e) => {
   e.preventDefault();
 
   try {
-    const response = await API.post("/auth/login", formData);
+    const response = await API.post("/auth/register", formData);
 
-    localStorage.setItem("token", response.data.token);
-    navigate("/");
+    navigate("/login");
   } catch (error) {
     console.log(error);
   }
 };
 
-
-
-
   return (
-    <div className="container d-flex justify-content-center align-items-center" style={{ minHeight: "90vh" }}>
-      
-      <div className="glass-card p-5" style={{ width: "100%", maxWidth: "400px" }}>
-        
+    <div
+      className="container d-flex justify-content-center align-items-center"
+      style={{ minHeight: "90vh" }}
+    >
+      <div
+        className="glass-card p-5"
+        style={{ width: "100%", maxWidth: "400px" }}
+      >
         <h3 className="text-center mb-4 fw-bold">Welcome Back 👋</h3>
+
         <p className="text-center text-muted mb-4">
-          Login to continue your interview journey
+          Register to start your interview journey
         </p>
 
         <form onSubmit={handleSubmit}>
-          
+          <div className="mb-3">
+            <label className="form-label">Name</label>
+            <input
+              type="text"
+              className="form-control"
+              name="name"
+              value={formData.name}
+              onChange={handleChange}
+              required
+            />
+          </div>
+
           <div className="mb-3">
             <label className="form-label">Email</label>
-            <input 
+            <input
               type="email"
               className="form-control"
               name="email"
@@ -56,9 +67,9 @@ const handleSubmit = async (e) => {
             />
           </div>
 
-          <div className="mb-4">
+          <div className="mb-3">
             <label className="form-label">Password</label>
-            <input 
+            <input
               type="password"
               className="form-control"
               name="password"
@@ -68,27 +79,25 @@ const handleSubmit = async (e) => {
             />
           </div>
 
+          <div className="mb-4">
+            <label className="form-label">Confirm Password</label>
+            <input
+              type="password"
+              className="form-control"
+              name="confirmPassword"
+              value={formData.confirmPassword}
+              onChange={handleChange}
+              required
+            />
+          </div>
+
           <button className="btn btn-olive w-100" type="submit">
-            Login
+            Register
           </button>
-
         </form>
-
-       <div className="text-center mt-4">
-  <small>
-    Don’t have an account?{" "}
-  <Link
-  to="/register"
-  className="text-success text-decoration-none fw-semibold"
->
-  Register
-</Link>
-  </small>
-</div>
       </div>
-
     </div>
   );
 };
 
-export default Login;
+export default Register;
